@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Heap<Type> {
-    private ArrayList<DataHolder<Type>> heap;
+    private ArrayList<HeapNode<Type>> heap;
 
     // Constructor
     Heap() {
@@ -9,19 +9,20 @@ public class Heap<Type> {
         heap.add(null);  // Insertamos un null en la posición 0 para no usarla
     }
 
-    public void insert(DataHolder<Type> data) {
-        heap.add(data);
+    public void insert(Type value, double priority) {
+        HeapNode<Type> newHeapNode = new HeapNode<>(value, priority);
+        heap.add(newHeapNode);
         heapifyUp(heap.size() - 1);
     }
 
-    public DataHolder<Type> remove() {
+    public HeapNode<Type> remove() {
         if (heap.size() == 1){
             return null;
         }
         if (heap.size() == 2){
             return heap.remove(heap.size() - 1);
         }
-        DataHolder<Type> element = heap.get(1);
+        HeapNode<Type> element = heap.get(1);
         heap.set(1, heap.remove(heap.size() - 1));
         heapifyDown(1);
         return element;
@@ -38,7 +39,7 @@ public class Heap<Type> {
         int indexLeftChildren = index * 2;
         int indexRightChildren = index * 2 + 1;
         int size = heap.size() - 1;
-        while ((indexLeftChildren <= size) && (indexRightChildren <= size)) {
+        while ((indexLeftChildren <= size) || (indexRightChildren <= size)) {
             int switchIndex;
             if(indexLeftChildren > size){
                 switchIndex = indexRightChildren;
@@ -62,7 +63,7 @@ public class Heap<Type> {
     }
 
     private void Switch(int index1, int index2){
-        DataHolder<Type> temp = heap.get(index1);
+        HeapNode<Type> temp = heap.get(index1);
         heap.set(index1, heap.get(index2));
         heap.set(index2, temp);
     }
@@ -70,7 +71,7 @@ public class Heap<Type> {
     public void printHeap() {
         StringBuilder result = new StringBuilder();
         for (int i = 1; i < heap.size(); i++) {
-            result.append(heap.get(i).value);
+            result.append(heap.get(i).value.toString());
             if (i < heap.size() - 1) {
                 result.append(", ");
             }
@@ -83,6 +84,14 @@ public class Heap<Type> {
         while(heap.size() > 1){
             System.out.println(remove().value);
         }
+    }
+
+    public boolean isEmpty(){
+        return this.heap.size() == 1;
+    }
+
+    public int size(){
+        return this.heap.size() - 1;
     }
 
 }
