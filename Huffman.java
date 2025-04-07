@@ -22,7 +22,7 @@ public class Huffman<Type> {
             Node<Type> newNode = new Node<>(null);
             newNode.left = heapNode1.value;
             newNode.right = heapNode2.value;
-            heap.insert(newNode, (double) heapNode1.priority + heapNode2.priority);
+            heap.insert(newNode, heapNode1.priority + heapNode2.priority);
         }
         buildDiccionaryRecursive(root, "");
     }
@@ -35,7 +35,7 @@ public class Huffman<Type> {
         }
     }
 
-    public void insert(Type value, double priority){
+    public void insert(Type value, int priority){
         Node<Type> newNodo = new Node<>(value);
         heap.insert(newNodo, priority);
     }
@@ -44,6 +44,14 @@ public class Huffman<Type> {
         for (Type key : diccionary.keySet()) {
             System.out.println("Clave: " + key + ", Valor: " + diccionary.get(key));
         }
+    }
+
+    public String getDiccionary(){
+        StringBuilder diccionaryString = new StringBuilder();
+        for (Type key : diccionary.keySet()) {
+            diccionaryString.append(key.toString() + diccionary.get(key).toString());
+        }
+        return diccionaryString.toString();
     }
 
     public String search(Type key) {

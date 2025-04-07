@@ -9,7 +9,7 @@ public class Heap<Type> {
         heap.add(null);  // Insertamos un null en la posición 0 para no usarla
     }
 
-    public void insert(Type value, double priority) {
+    public void insert(Type value, int priority) {
         HeapNode<Type> newHeapNode = new HeapNode<>(value, priority);
         heap.add(newHeapNode);
         heapifyUp(heap.size() - 1);
