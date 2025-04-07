@@ -35,7 +35,7 @@ public class Lector {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write(text);  // Escribe el contenido del String en el archivo
         } catch (IOException e) {
-            e.printStackTrace();  // Manejo de excepciones si hay problemas al escribir el archivo
+            throw new IllegalArgumentException("No se pudo crear el archivo");  //si hay problemas al escribir el archivo
         }
     }
     

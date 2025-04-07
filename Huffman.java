@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 
 public class Huffman<Type> {
     private Heap<Node<Type>> heap;
@@ -61,4 +62,15 @@ public class Huffman<Type> {
         }
         return null;  // Si no lo encuentra, devuelve null
     }
+
+    public Type searchByValue(String value) {
+        for (Map.Entry<Type, String> entry : diccionary.entrySet()) {
+            if (entry.getValue().equals(value)) {
+                return entry.getKey();
+            }
+        }
+        return null; // Si no lo encuentra
+    }
+
+    
 }
