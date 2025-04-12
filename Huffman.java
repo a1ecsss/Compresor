@@ -4,13 +4,16 @@ import java.util.Map;
 public class Huffman<Type> {
     private Heap<Node<Type>> heap;
     private Node<Type> root;
-    HashMap<Type, String> diccionary;
+    public HashMap<Type, String> diccionary;
+    public HashMap<String, Type> inverseDiccionary;
 
     Huffman(){
         heap = new Heap<>();
         diccionary = new HashMap<>();
+        inverseDiccionary = new HashMap<>();
     }
 
+    //se crea el arbol
     public void build(){
         while (!heap.isEmpty()){
             
@@ -28,25 +31,33 @@ public class Huffman<Type> {
         buildDiccionaryRecursive(root, "");
     }
 
+    //crear el diccionario recorriendo el arbol 
     private void buildDiccionaryRecursive(Node<Type> node, String code){
         if (node != null){
-            if(node.value != null){diccionary.put(node.value, code);};
+            if(node.value != null){
+                diccionary.put(node.value, code);
+                inverseDiccionary.put(code, node.value);
+            };
+            
             buildDiccionaryRecursive(node.left, code + "0");
             buildDiccionaryRecursive(node.right, code + "1");
         }
     }
 
+    //insertar un valor en la cola de prioridad
     public void insert(Type value, int priority){
         Node<Type> newNodo = new Node<>(value);
         heap.insert(newNodo, priority);
     }
 
+    //imprimir diccionario
     public void printDiccionary(){
         for (Type key : diccionary.keySet()) {
             System.out.println("Clave: " + key + ", Valor: " + diccionary.get(key));
         }
     }
 
+    //Retornar el diccionario en String ( A21B34C9D983 )
     public String getDiccionary(){
         StringBuilder diccionaryString = new StringBuilder();
         for (Type key : diccionary.keySet()) {
@@ -55,22 +66,20 @@ public class Huffman<Type> {
         return diccionaryString.toString();
     }
 
+    //Busqueda en el diccionario (caracter - codigo binario)
     public String search(Type key) {
-        // Buscar el elemento en el HashMap
         if (diccionary.containsKey(key)) {
-            return diccionary.get(key);  // Si lo encuentra, devuelve el valor
+            return diccionary.get(key);  //si lo encuentra se devuelve
         }
-        return null;  // Si no lo encuentra, devuelve null
+        return null;  // Si no devuelve null
     }
 
-    public Type searchByValue(String value) {
-        for (Map.Entry<Type, String> entry : diccionary.entrySet()) {
-            if (entry.getValue().equals(value)) {
-                return entry.getKey();
-            }
+    //Busqueda en el diccionario inverso (codigo binario - caracter)
+    public Type searchInverse(String key) {
+        if (inverseDiccionary.containsKey(key)) {
+            return inverseDiccionary.get(key);  //si lo encuentra se devuelve
         }
-        return null; // Si no lo encuentra
+        return null;  // Si no devuelve null
     }
-
     
 }

@@ -10,12 +10,8 @@ public class Main {
     public static void main(String[] args) {
         FileCompressor filecompressor = new FileCompressor();
         FileDeCompressor filedecompressor = new FileDeCompressor();
-        //Scanner scanner = new Scanner(System.in);
-        //System.out.print("Ingrese el nombre del archivo: ");
-        //String filePath = scanner.nextLine();
         filecompressor.CompresseFile("archivo.txt");
         filedecompressor.DecompresseFile("compressed_archivo.txt");
-        //scanner.close();
-        
+
     }
 }

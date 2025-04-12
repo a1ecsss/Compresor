@@ -9,12 +9,14 @@ public class Heap<Type> {
         heap.add(null);  // Insertamos un null en la posición 0 para no usarla
     }
 
+    //inserta un elemento donde pertence
     public void insert(Type value, int priority) {
         HeapNode<Type> newHeapNode = new HeapNode<>(value, priority);
         heap.add(newHeapNode);
         heapifyUp(heap.size() - 1);
     }
 
+    //remueve el primer elemento del arbol
     public HeapNode<Type> remove() {
         if (heap.size() == 1){
             return null;
@@ -28,6 +30,7 @@ public class Heap<Type> {
         return element;
     }
 
+    //ordenamiento hacia arriba
     public void heapifyUp(int index) {
         while ((index != 1) && (heap.get(index).priority < heap.get(index / 2).priority)) {
             Switch(index / 2, index);
@@ -35,6 +38,7 @@ public class Heap<Type> {
         }
     }
 
+    //ordenamiento hacia abajo
     public void heapifyDown(int index) {
         int indexLeftChildren = index * 2;
         int indexRightChildren = index * 2 + 1;
@@ -62,12 +66,14 @@ public class Heap<Type> {
         }
     }
 
+    //cambiar nodos
     private void Switch(int index1, int index2){
         HeapNode<Type> temp = heap.get(index1);
         heap.set(index1, heap.get(index2));
         heap.set(index2, temp);
     }
 
+    //imrpimir cola
     public void printHeap() {
         StringBuilder result = new StringBuilder();
         for (int i = 1; i < heap.size(); i++) {
@@ -79,17 +85,19 @@ public class Heap<Type> {
         System.out.println(result.toString());
     }
     
-
+    //cola ordenada
     public void printSortedHeap() {
         while(heap.size() > 1){
             System.out.println(remove().value);
         }
     }
 
+    //cola vacia o no
     public boolean isEmpty(){
         return this.heap.size() == 1;
     }
 
+    //tamaño de la cola
     public int size(){
         return this.heap.size() - 1;
     }

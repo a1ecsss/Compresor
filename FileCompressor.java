@@ -13,30 +13,21 @@ public class FileCompressor {
             huff.insert(key, diccionary.get(key));
         }
         huff.build();
-        StringBuilder binaryResult = new StringBuilder();
+        StringBuilder binaryString = new StringBuilder();
         StringBuilder compressedFileString = new StringBuilder(HashMapToString(diccionary)+"\u00FF");
         for (int i = 0; i < fileString.length(); i++) {
-            binaryResult.append(huff.search(String.valueOf(fileString.charAt(i))));
-            
-            if (binaryResult.length() > 7){
-                int asciiCode = binaryToDecimal(binaryResult.substring(0, 8));
-                compressedFileString.append((char) asciiCode);
-                binaryResult.delete(0, 8);
-            }
+            binaryString.append(huff.search(String.valueOf(fileString.charAt(i))));
         }
-        if (binaryResult.length() != 0 ){
-            while (binaryResult.length() < 8) {
-                binaryResult.append("0");
-            }
-            int asciiCode = binaryToDecimal(binaryResult.substring(0, 8));
-            
-            compressedFileString.append((char) asciiCode);
-            binaryResult.delete(0, 8);
+        while (binaryString.length() % 8 != 0) {
+            binaryString.append("0");
+        }
+        for (int i = 0; i < binaryString.length(); i += 8){
+            compressedFileString.append((char) binaryToDecimal(binaryString.substring(i, i+8)));
         }
         Lector.saveStringToFile(compressedFileString.toString(), "compressed_"+filePath);
     }
 
-    private int binaryToDecimal(String bin) {
+    public int binaryToDecimal(String bin) {
         int result = 0;
         for (int i = 0; i < bin.length(); i++) {
             int bit = Character.getNumericValue(bin.charAt(bin.length() - 1 - i)); //se recorre de izquierda a derecha
