@@ -6,6 +6,11 @@ import java.io.IOException;
 
 public class FileDeCompressor {
     Huffman<String> huff = new Huffman<>();
+    private HashMap<String, Integer> diccionary;
+    
+    FileDeCompressor(){
+        diccionary = new HashMap<>();
+    }
 
     public void DecompresseFile(String filePath){
         String compressedFileString = Lector.readFileToString(filePath);
@@ -21,6 +26,13 @@ public class FileDeCompressor {
             bin.append(binaryString.charAt(i));
             String value = huff.searchInverse(bin.toString());
             if (value != null) {  
+                if (diccionary.containsKey(value)) {
+                    int nowValue = diccionary.get(value);
+                    if(nowValue == 0){
+                        break;
+                    }
+                    diccionary.put(value, nowValue - 1);
+                }
                 deCompressedFileString.append(value);
                 bin.setLength(0);  // Limpiar el StringBuilder
             }
@@ -40,8 +52,6 @@ public class FileDeCompressor {
         }
         return binary.toString();
     }
-    
-    
 
     private void setHuffmanTree(String diccionaryString){
         int index = 0;
@@ -57,6 +67,7 @@ public class FileDeCompressor {
             if (number.length() > 0) {
                 int n = Integer.parseInt(number.toString());
                 huff.insert(String.valueOf(character), n);
+                diccionary.put(String.valueOf(character), n);
             }
             
         }
